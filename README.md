@@ -19,6 +19,6 @@ You can install GVISION using pip:
 ```bash
 >>>gvision
 ```
-![Global cli](image.png)
+![Global cli](https://raw.githubusercontent.com/gaurang157/gvision/main/image.png)
 
 ![GVISION-AUTOMATION](image-1.png)
