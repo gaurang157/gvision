@@ -1,4 +1,4 @@
-[# GVISION](https://raw.githubusercontent.com/gaurang157/gvision/main/logo.png)
+![logo](https://raw.githubusercontent.com/gaurang157/gvision/main/logo.png)
 
 GVISION is a streamlined solution for vision tasks, including data collection from Roboflow, model training with Ultralytics, and deployment demos using Streamlit.
 
