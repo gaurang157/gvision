@@ -1,0 +1,17 @@
+av==11.0.0
+numpy==1.24.4
+opencv_python==4.9.0.80
+opencv_python_headless==4.8.0.74
+pandas==2.0.3
+Pillow==10.2.0
+PyYAML==6.0.1
+Requests==2.31.0
+roboflow==1.1.1
+streamlit==1.31.0
+streamlit_ace==0.1.1
+streamlit_webrtc==0.47.1
+supervision==0.18.0
+torch==2.2.0
+ultralytics==8.1.10
+YAML2ST==1.0.20
+
