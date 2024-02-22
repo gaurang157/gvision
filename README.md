@@ -5,14 +5,14 @@ GVISION is an end-to-end automation platform for computer vision projects, provi
 
 ## Features ✨
 
-- **Roboflow Integration:** Easily download datasets from Roboflow for your computer vision projects.
-- **Ultralytics Model Training:** Train your custom models using Ultralytics, supporting various tasks like object detection, segmentation, classification, and pose estimation.
-- **Streamlit Deployment Demo:** Quickly deploy your trained models with Streamlit for interactive demos and visualization.
 - **Easy-to-Use Interface:** Intuitive UI design for effortless project management and model development.
-- **Multiple Tasks Supported:** Develop models for object detection, segmentation, classification, and pose estimation.
 - **No Coding Required:** Build and train models without writing any code.
-- **Quick Deployment:** Deploy trained models seamlessly for various applications.
+- **Roboflow Integration:** Easily download datasets from Roboflow for your computer vision projects.
+- **Multiple Tasks Supported:** Develop models for object detection, segmentation, classification, and pose estimation.
+- **Ultralytics Model Training:** Train your custom models using Ultralytics YOLOv8.
 - **Performance Monitoring:** Track model performance and visualize results.
+- **Quick Deployment:** Deploy trained models seamlessly for various applications.
+- **Streamlit Deployment Demo:** Quickly deploy your trained models with Streamlit for interactive demos and visualization.
 
 ## Getting Started 🌟
 1. **Installation**
