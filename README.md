@@ -27,7 +27,7 @@ gvision
 ```
 ![Global cli](https://raw.githubusercontent.com/gaurang157/gvision/main/image.png)
 
-# Application-UI:
+# #UI:
 ![GVISION-AUTOMATION](https://raw.githubusercontent.com/gaurang157/gvision/main/image-1.png)
 
 3. Import Your Data: Use the Roboflow integration to import datasets and preprocess your data.
@@ -40,7 +40,7 @@ gvision
 For detailed instructions on how to use GVISION, check out the [Documentation](https://github.com/gaurang157/gvision#).
 
 ## Contributing 🤝
-We welcome contributions from the community! If you have any feature requests, bug reports, or ideas for improvement, please open an issue or submit a pull request.
+We welcome contributions from the community! If you have any feature requests, bug reports, or ideas for improvement, please [open an issue](https://github.com/gaurang157/gvision/issues) or submit a [pull request](https://github.com/gaurang157/gvision/pulls).
 
 ## Support 💌
 For any questions, feedback, or support requests, please contact us at gaurang.ingle@gmail.com.
