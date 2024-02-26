@@ -1,7 +1,12 @@
 
 def main():
 	import streamlit as st
-	st.set_page_config(page_title="Automation", page_icon="🏗️", layout="wide", initial_sidebar_state = "collapsed")
+	st.set_page_config(
+		page_title="Automation", 
+		page_icon="🏗️", 
+		layout="wide", 
+		initial_sidebar_state = "collapsed"
+		)
 	import ultralytics
 	from ultralytics import YOLO
 	from roboflow import Roboflow
@@ -13,6 +18,12 @@ def main():
 	import yaml
 	import re
 	import time
+	import subprocess
+	import time
+	import threading
+	import random
+	import glob
+	import sys
 	# Set the environment variable
 	os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 	logging.basicConfig(level=logging.WARNING)
@@ -63,7 +74,7 @@ def main():
 	st.markdown("<h1 style='text-align: center; color: orange;'>🏗️Automation🏗️</h1>", unsafe_allow_html=True)
 	# # st.write(":rainbow[-------------------------------------------------------------------------------------------------------------------------------------------]")
 	st.subheader("",divider='rainbow')
-	col17, col88, col27, col99, col37 = st.columns([3.0,2.3,3.3,2,1.2])
+	col17, col88, col27, col99, col37, col121, col122 = st.columns([2.7,2.0,3.0,2,3.2,2,1.8])
 	with col17:
 	   # st.header("A cat")
 	   st.image("https://avatars.githubusercontent.com/u/53104118?s=280&v=4.svg", width = 100)
@@ -71,12 +82,18 @@ def main():
 		st.title("➡️")
 	with col27:
 	   # st.header("A dog")
-	   st.image("https://assets-global.website-files.com/646dd1f1a3703e451ba81ecc/64994922cf2a6385a4bf4489_UltralyticsYOLO_mark_blue.svg", width = 100)
+	   st.image("https://assets-global.website-files.com/646dd1f1a3703e451ba81ecc/64994922cf2a6385a4bf4489_UltralyticsYOLO_mark_blue.svg", width = 95)
 	with col99:
 		st.title("➡️")
 	with col37:
 	   # st.header("An owl")
+	   st.image("https://raw.githubusercontent.com/gaurang157/gvision/main/assets/TensorBoard_logo2.png", width = 160)
+	with col121:
+		st.title("➡️")
+	with col122:
+	   # st.header("An owl")
 	   st.image("https://raw.githubusercontent.com/github/explore/968d1eb8fb6b704c6be917f0000283face4f33ee/topics/streamlit/streamlit.png", width = 120)
+	
 	# st.subheader("",divider='rainbow')
 	# st.markdown("<h1 style='text-align: center; color: orange;'>🏗️Automation🏗️</h1>", unsafe_allow_html=True)
 	# st.write(":rainbow[-------------------------------------------------------------------------------------------------------------------------------------------]")
@@ -237,10 +254,15 @@ dataset = project.version(1).download("yolov8")
 		# os.chdir(dataset_dir)
 		# print("Changed working directory to:", dataset_dir)
 
+
+
 		rf = Roboflow(api_key=r_api)                   #IMP
 		project = rf.workspace(r_wid).project(r_pid)
 
 		dataset = project.version(r_pv).download(extracted_format)
+
+
+
 		st.write("Dataset downloaded successfully!")
 		# print(dir(dataset),"ghjnk")
 		# print("Location:", dataset.location)
@@ -306,7 +328,7 @@ dataset = project.version(1).download("yolov8")
 			disabled=st.session_state.disabled,
 			placeholder="e.g. 16",
 			key="batch",
-			min_value=2,
+			min_value=1,
 			value=None
 		)
 		opts = ['ram', 'disk']
@@ -369,7 +391,7 @@ dataset = project.version(1).download("yolov8")
 			# print("No recent folders found.")
 	from streamlit_ace import st_ace
 	"## `Input`"
-	string = f"results = model.train(task='{task}', data='{yml}', epochs={epochs}, imgsz={imgsz}, cache='{cache}', batch={batch}, device='{device}', save_dir = '{current_directory}')"
+	string = f"results = model.train(task='{task}', data='{yml}', epochs={epochs}, imgsz={imgsz}, cache='{cache}', batch={batch}, device='{device}', visualize=True, save_dir = '{current_directory}')"
 	d = "device = 'cuda' if torch.cuda.is_available() else 'cpu'"
 	st.text("Best Device is Selected by Default")
 	st.code(d)
@@ -401,7 +423,174 @@ dataset = project.version(1).download("yolov8")
 	# image_bytes = image_file.read()
 	# st.image(image_bytes, caption='filename')
 	if st.button("Train Model", type='primary'):
-		g7 = exec(grass)
+		try:
+			if task == 'pose':
+				raise ValueError("Task is not equal to 'pose'.")
+			port = random.randint(6000, 6999)
+			def find_recent_train_folder(task):
+				# Construct the directory path
+				logdir1 = os.path.join(os.getcwd(), 'runs', task)
+
+				# Check if the task directory exists
+				if not os.path.exists(logdir1):
+					default_train_folder = os.path.join(logdir1, 'train')
+					print(f"No 'train' folders found. Using default path: {default_train_folder}")
+					return default_train_folder
+
+				# Get a list of all "train" folders
+				train_folders = glob.glob(os.path.join(logdir1, 'train*'))
+
+				# If no "train" folders are found, return the default path with folder number 1
+				if not train_folders:
+					default_train_folder = os.path.join(logdir1, 'train')
+					print(f"No 'train' folders found. Using default path: {default_train_folder}")
+					return default_train_folder
+
+				# Sort the folders by modification time to get the most recent one
+				most_recent_train_folder = max(train_folders, key=os.path.getmtime)
+
+				# Parse the number from the most recent folder's path
+				folder_number_str = most_recent_train_folder.split('train')[-1]
+				
+				try:
+					folder_number = int(folder_number_str)
+				except ValueError:
+					print(f"Invalid folder name '{folder_number_str}'.")
+					folder_number = 1  # Set default folder number to 1 if parsing fails
+
+				# Increment the number by 1
+				next_folder_number = folder_number + 1
+
+				# Construct the path for the next folder
+				next_train_folder = os.path.join(logdir1, f'train{next_folder_number}')
+
+				return next_train_folder
+
+
+			def run_tensorboard():
+				# time.sleep(12)  # Wait for 1 second before starting TensorBoard
+				cmdd = f"tensorboard --logdir {logdir} --port {port} --reload_interval 1 --reload_multifile True"
+				subprocess.Popen(cmdd, shell=True)
+
+			def txt(port):
+				with st.spinner('Preparing TensorBoard Monitoring Interface...'):
+					time.sleep(11)
+					st.success(f"TensorBoard started successfully! View at http://localhost:{port}/?darkMode=true#timeseries&run=")
+					st.warning("Please refresh the link provided above after 10 seconds of opening.")
+					# stream_data()
+			
+			logdir = find_recent_train_folder(task)
+			st.write(logdir)
+			# Start running TensorBoard in a separate thread
+			tensorboard_thread = threading.Thread(target=run_tensorboard)
+			tensorboard_thread.start()
+			
+			prt = threading.Thread(target=txt(port))
+			# st.success("TensorBoard started successfully! View at http://localhost:1004/")
+			# Continue with the execution of the first line of code
+			with st.spinner('Model Training...'):
+				g7 = exec(grass)
+			st.success(logdir)
+			# else:
+			# 	break
+		except ValueError as e:
+			st.write(yml)
+			# print("yml->", yml)
+			# yml = yml.replace("//", "/")
+			# print("yml/->", yml)
+			with open(yml, 'r') as d_y:
+				try:
+					data_y = yaml.safe_load(d_y)
+					# st.subheader(":green[data.yaml:]")
+					# st.write(data_y)
+					# print("data_y:->", data_y)
+					# Load the YAML content from the file
+					# Read the entire content of the data.yaml file
+					with open(yml, 'r') as d_y:
+					    yaml_content = d_y.readlines()
+
+					# Modify the last three lines
+					yaml_content[-3] = "test: test/images\n"
+					yaml_content[-2] = "train: train/images\n"
+					yaml_content[-1] = "val: valid/images\n"
+
+					# Write the modified content back to the file
+					with open(yml, 'w') as d_y:
+					    d_y.writelines(yaml_content)
+				except yaml.YAMLError as exc:
+					print(exc)
+					pass
+			# port = random.randint(6000, 6999)
+			# def find_recent_train_folder(task):
+			# 	# Construct the directory path
+			# 	logdir1 = os.path.join(os.getcwd(), 'runs', task)
+
+			# 	# Check if the task directory exists
+			# 	if not os.path.exists(logdir1):
+			# 		default_train_folder = os.path.join(logdir1, 'train')
+			# 		print(f"No 'train' folders found. Using default path: {default_train_folder}")
+			# 		return default_train_folder
+
+			# 	# Get a list of all "train" folders
+			# 	train_folders = glob.glob(os.path.join(logdir1, 'train*'))
+
+			# 	# If no "train" folders are found, return the default path with folder number 1
+			# 	if not train_folders:
+			# 		default_train_folder = os.path.join(logdir1, 'train')
+			# 		print(f"No 'train' folders found. Using default path: {default_train_folder}")
+			# 		return default_train_folder
+
+			# 	# Sort the folders by modification time to get the most recent one
+			# 	most_recent_train_folder = max(train_folders, key=os.path.getmtime)
+
+			# 	# Parse the number from the most recent folder's path
+			# 	folder_number_str = most_recent_train_folder.split('train')[-1]
+				
+			# 	try:
+			# 		folder_number = int(folder_number_str)
+			# 	except ValueError:
+			# 		print(f"Invalid folder name '{folder_number_str}'.")
+			# 		folder_number = 1  # Set default folder number to 1 if parsing fails
+
+			# 	# Increment the number by 1
+			# 	next_folder_number = folder_number + 1
+
+			# 	# Construct the path for the next folder
+			# 	next_train_folder = os.path.join(logdir1, f'train{next_folder_number}')
+
+			# 	return next_train_folder
+
+
+			# def run_tensorboard():
+			# 	# time.sleep(12)  # Wait for 1 second before starting TensorBoard
+			# 	cmdd = f"tensorboard --logdir {logdir} --port {port} --reload_interval 1 --reload_multifile True"
+			# 	subprocess.Popen(cmdd, shell=True)
+
+			# def txt(port):
+			# 	with st.spinner('Preparing TensorBoard Monitoring Interface...'):
+			# 		time.sleep(15)
+			# 		st.success(f"TensorBoard started successfully! View at http://localhost:{port}/?darkMode=true#timeseries&run=&refresh=1")
+			# 		st.warning("Please refresh the link provided above after 10 seconds of opening.")
+
+			
+			# logdir = find_recent_train_folder(task)
+			# st.write(logdir)
+			# # Start running TensorBoard in a separate thread
+			# tensorboard_thread = threading.Thread(target=run_tensorboard)
+			# tensorboard_thread.start()
+			
+			# prt = threading.Thread(target=txt(port))
+			with st.spinner('Model Training...'):
+				g7 = exec(grass)
+		except Exception as e:
+			# pass
+			import sys
+			st.error(f"An error occurred: {str(e)}")
+			# st.title("⚠️ First Train Your Custom Model ⚠️")
+			sys.exit()
+			
+		
+
 		print("extracted_format-->",extracted_format)
 		import os
 
@@ -487,7 +676,7 @@ dataset = project.version(1).download("yolov8")
 			try:
 				parsed_yaml=yaml.safe_load(stream)
 				st.subheader(":green[args.yaml:]")
-				st.json(parsed_yaml)
+				st.table(parsed_yaml)
 			except yaml.YAMLError as exc:
 				print(exc)
 	if st.button("Deployment Demo"):
