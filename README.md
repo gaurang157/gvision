@@ -10,7 +10,8 @@ GVISION is an end-to-end automation platform for computer vision projects, provi
 - **Roboflow Integration:** Easily download datasets from Roboflow for your computer vision projects.
 - **Multiple Tasks Supported:** Develop models for object detection, segmentation, classification, and pose estimation.
 - **Ultralytics Model Training:** Train your custom models using Ultralytics YOLOv8.
-- **Performance Monitoring:** Track model performance and visualize results.
+- **Live Monitoring with TensorBoard:** Monitor model training and performance in real-time using TensorFlow's TensorBoard integration.
+- **Performance Monitoring:** View model performance and visualize results.
 - **Quick Deployment:** Deploy trained models seamlessly for various applications.
 - **Streamlit Deployment Demo:** Quickly deploy your trained models with Streamlit for interactive demos and visualization.
 
@@ -41,6 +42,14 @@ For detailed instructions on how to use GVISION, check out the [Documentation](h
 
 ## Contributing 🤝
 We welcome contributions from the community! If you have any feature requests, bug reports, or ideas for improvement, please [open an issue](https://github.com/gaurang157/gvision/issues) or submit a [pull request](https://github.com/gaurang157/gvision/pulls).
+
+## Upcoming Features 🚀
+
+- **Video Support:** Upload video datasets and train models for video analysis.
+- **Predicted Video Generation:** Generate predicted videos based on model inference results.
+
+Version 0.9 of GVISION will introduce exciting new features, including video support and predicted video generation capabilities. Stay tuned for updates!
+
 
 ## Support 💌
 For any questions, feedback, or support requests, please contact us at gaurang.ingle@gmail.com.
