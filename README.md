@@ -1,6 +1,6 @@
-# GVISION 🚀
-![logo](https://raw.githubusercontent.com/gaurang157/gvision/main/logo.png)
 
+![logo](https://raw.githubusercontent.com/gaurang157/gvision/main/logo.png)
+# GVISION 🚀
 GVISION is an end-to-end automation platform for computer vision projects, providing seamless integration from data collection to model training and deployment. Whether you're a beginner or an expert, GVISION simplifies the entire process, allowing you to focus on building and deploying powerful models.
 
 ## Features ✨
