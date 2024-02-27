@@ -16,13 +16,16 @@ GVISION is an end-to-end automation platform for computer vision projects, provi
 - **Streamlit Deployment Demo:** Quickly deploy your trained models with Streamlit for interactive demos and visualization.
 
 ## Getting Started 🌟
-1. **Installation**
+1. **Note: Before Installation**
+It's recommended to create a new Python environment or Conda environment before installing GVISION. This will prevent potential conflicts with your existing dependencies and ensure a smooth installation process.
+
+2. **Installation**
 You can install GVISION using pip:
 ```bash
 pip install gvision
 ```
 # Global CLI
-2. **Run GVISION**: Launch the GVISION application directly in the Command Line Interface (CLI).
+3. **Run GVISION**: Launch the GVISION application directly in the Command Line Interface (CLI).
 ```bash
 gvision
 ```
@@ -31,11 +34,11 @@ gvision
 # #UI:
 ![GVISION-AUTOMATION](https://github.com/gaurang157/gvision/blob/main/assets/gif-demo.gif?raw=true)
 
-3. Import Your Data: Use the Roboflow integration to import datasets and preprocess your data.
+4. Import Your Data: Use the Roboflow integration to import datasets and preprocess your data.
 
-4. Train Your Model: Utilize Ultralytics for training your custom models with ease.
+5. Train Your Model: Utilize Ultralytics for training your custom models with ease.
 
-5. Deploy Your Model: Showcase your trained models with Streamlit deployment for interactive visualization.
+6. Deploy Your Model: Showcase your trained models with Streamlit deployment for interactive visualization.
 
 ## Documentation 📚
 For detailed instructions on how to use GVISION, check out the [Documentation](https://github.com/gaurang157/gvision#).
