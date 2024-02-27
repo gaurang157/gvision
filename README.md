@@ -22,7 +22,7 @@ You can install GVISION using pip:
 pip install gvision
 ```
 # Global CLI
-2. **Run GVISION**: Launch the GVISION application.
+2. **Run GVISION**: Launch the GVISION application directly in the Command Line Interface (CLI).
 ```bash
 gvision
 ```
@@ -40,11 +40,13 @@ gvision
 ## Documentation 📚
 For detailed instructions on how to use GVISION, check out the [Documentation](https://github.com/gaurang157/gvision#).
 
+## License 📝
+GVISION is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+
 ## Contributing 🤝
 We welcome contributions from the community! If you have any feature requests, bug reports, or ideas for improvement, please [open an issue](https://github.com/gaurang157/gvision/issues) or submit a [pull request](https://github.com/gaurang157/gvision/pulls).
 
 ## Upcoming Features 🚀
-
 - **Video Support:** Upload video datasets and train models for video analysis.
 - **Predicted Video Generation:** Generate predicted videos based on model inference results.
 
