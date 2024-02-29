@@ -57,11 +57,9 @@ GVISION is licensed under the [MIT License](https://opensource.org/licenses/MIT)
 We welcome contributions from the community! If you have any feature requests, bug reports, or ideas for improvement, please [open an issue](https://github.com/gaurang157/gvision/issues) or submit a [pull request](https://github.com/gaurang157/gvision/pulls).
 
 ## Upcoming Features 🚀
-- **Video Support:** Upload video datasets and train models for video analysis.
-- **Predicted Video Generation:** Generate predicted videos based on model inference results.
+- **Real-Time Inference Results:** Receive more detailed information, such as model frames per second (fps), during real-time (streaming) predictions from deployment.
 
-Version 0.9 of GVISION will introduce exciting new features, including video support and predicted video generation capabilities. Stay tuned for updates!
-
+Version 1.0 of GVISION will be the official release and will introduce exciting enhancements, including more detailed results in real-time predictions. Stay tuned for updates!
 
 ## Support 💌
 For any questions, feedback, or support requests, please contact us at gaurang.ingle@gmail.com.
