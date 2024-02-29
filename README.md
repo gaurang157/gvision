@@ -15,6 +15,14 @@ GVISION is an end-to-end automation platform for computer vision projects, provi
 - **Quick Deployment:** Deploy trained models seamlessly for various applications.
 - **Streamlit Deployment Demo:** Quickly deploy your trained models with Streamlit for interactive demos and visualization.
 
+| X | Detection | Segmentation | Classification | Pose Estimation | *
+| --- | --- | --- | --- | --- |
+| Real-Time(Live Predict) | ✅ | ✅ | ✅ | ✅ |
+| Click & Predict | ✅ | ✅ | ✅ | ✅ |
+| Upload Multiple Images & Predict | ✅ | ✅ | ✅ | ✅ |
+| Upload Video | ✅ | ✅ | ✅ | ✅ |
+| --- | --- | --- | --- | --- |
+
 ## Getting Started 🌟
 1. **Note: Before Installation**
 It's recommended to create a new Python environment or Conda environment before installing GVISION. This will prevent potential conflicts with your existing dependencies and ensure a smooth installation process.
