@@ -15,7 +15,7 @@ GVISION is an end-to-end automation platform for computer vision projects, provi
 - **Quick Deployment:** Deploy trained models seamlessly for various applications.
 - **Streamlit Deployment Demo:** Quickly deploy your trained models with Streamlit for interactive demos and visualization.
 
-| X | Detection | Segmentation | Classification | Pose Estimation | *
+| X | Detection | Segmentation | Classification | Pose Estimation |
 | --- | --- | --- | --- | --- |
 | Real-Time(Live Predict) | ✅ | ✅ | ✅ | ✅ |
 | Click & Predict | ✅ | ✅ | ✅ | ✅ |
