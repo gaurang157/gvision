@@ -5,8 +5,7 @@ def main():
 		page_title="Automation", 
 		page_icon="🏗️", 
 		layout="wide", 
-		initial_sidebar_state = "collapsed"
-		)
+		initial_sidebar_state = "collapsed")
 	import ultralytics
 	from ultralytics import YOLO
 	from roboflow import Roboflow
@@ -48,8 +47,18 @@ def main():
 					break  # Stop checking directories once 'data.yaml' is found
 			
 			if not yaml_directories:
-				# If no directories with 'data.yaml' are present, return the current working directory
-				return os.getcwd()
+				try:
+					# Get a list of all directories in the current working directory
+					directories = sorted([d for d in os.listdir('.') if os.path.isdir(d)],
+											 key=lambda x: os.path.getctime(x),
+											 reverse=True)  # Get all directories sorted by creation time
+
+					# Ensure we only take the top 1 directory
+					top_directory = directories[0] if directories else None
+					return os.path.abspath(top_directory)
+				except:
+					# If no directories with 'data.yaml' are present, return the current working directory
+					return os.getcwd()
 			
 			# Return the most recently created directory with 'data.yaml'
 			return os.path.abspath(yaml_directories[0])
@@ -71,7 +80,7 @@ def main():
 	device = 'cuda' if torch.cuda.is_available() else 'cpu'
 	# st.title(':orange[Automation]🏗️', divider='rainbow')
 	# st.header('  :rainbow[```````````]🏗️:orange[Automation]🏗️:rainbow[``````````]', )
-	st.markdown("<h1 style='text-align: center; color: orange;'>🏗️Automation🏗️</h1>", unsafe_allow_html=True)
+	st.markdown("<h1 style='text-align: center; color: orange;'>🏗️Gvision Automation🏗️</h1>", unsafe_allow_html=True)
 	# # st.write(":rainbow[-------------------------------------------------------------------------------------------------------------------------------------------]")
 	st.subheader("",divider='rainbow')
 	col17, col88, col27, col99, col37, col121, col122 = st.columns([2.7,2.0,3.0,2,3.2,2,1.8])
@@ -234,6 +243,7 @@ dataset = project.version(1).download("yolov8")
 				key="r_df",
 				value = extracted_format if rfd else None 
 			)
+		extracted_format = r_df
 		nul = 'nul'
 	prefix = (r_pid if r_pid else nul).rsplit('-', 1)[0]
 	# Check if the attribute is not already initialized
@@ -254,12 +264,11 @@ dataset = project.version(1).download("yolov8")
 		# os.chdir(dataset_dir)
 		# print("Changed working directory to:", dataset_dir)
 
+		with st.spinner("Downloading Dataset from Roboflow..."):
+			rf = Roboflow(api_key=r_api)                   #IMP
+			project = rf.workspace(r_wid).project(r_pid)
 
-
-		rf = Roboflow(api_key=r_api)                   #IMP
-		project = rf.workspace(r_wid).project(r_pid)
-
-		dataset = project.version(r_pv).download(extracted_format)
+			dataset = project.version(r_pv).download(extracted_format)
 
 
 
@@ -361,8 +370,9 @@ dataset = project.version(1).download("yolov8")
 	import contextlib
 	# from ultralytics import YOLO
 	model = YOLO(f'{model}.pt')
-	# print("extracted_format-->",extracted_format)
-	extracted_format = extracted_format if match_format else None
+	print("extracted_format-2->",extracted_format)
+	extracted_format = extracted_format if r_df else None
+	print("extracted_format-2->",extracted_format)
 	if extracted_format is not None:
 		if extracted_format.startswith('yolo'):
 			try:
@@ -399,7 +409,7 @@ dataset = project.version(1).download("yolov8")
 	container = st.container(border=True)
 	hp = """time=None, patience=50, batch=2, imgsz=32, save=True, save_period=-1, cache=disk, device=cpu, workers=8, project=None, name=train3, exist_ok=False, pretrained=True, optimizer=auto, verbose=True, seed=0, deterministic=True, single_cls=False, rect=False, cos_lr=False, close_mosaic=10, resume=False, amp=True, fraction=1.0, profile=False, freeze=None, multi_scale=False, overlap_mask=True, mask_ratio=4, dropout=0.0, val=True, split=val, save_json=False, save_hybrid=False, conf=None, iou=0.7, max_det=300, half=False, dnn=False, plots=True, source=None, vid_stride=1, stream_buffer=False, visualize=False, augment=False, agnostic_nms=False, classes=None, retina_masks=False, embed=None, show=False, save_frames=False, save_txt=False, save_conf=False, save_crop=False, show_labels=True, show_conf=True, show_boxes=True, line_width=None, format=torchscript, keras=False, optimize=False, int8=False, dynamic=False, simplify=False, opset=None, workspace=4, nms=False, lr0=0.01, lrf=0.01, momentum=0.937, weight_decay=0.0005, warmup_epochs=3.0, warmup_momentum=0.8, warmup_bias_lr=0.1, box=7.5, cls=0.5, dfl=1.5, pose=12.0, kobj=1.0, label_smoothing=0.0, nbs=64, hsv_h=0.015, hsv_s=0.7, hsv_v=0.4, degrees=0.0, translate=0.1, scale=0.5, shear=0.0, perspective=0.0, flipud=0.0, fliplr=0.5, mosaic=1.0, mixup=0.0, copy_paste=0.0, auto_augment=randaugment, erasing=0.4, crop_fraction=1.0, cfg=None, tracker=botsort.yaml, save_dir=runs\\detect\\train3
 	Overriding model.yaml nc=80 with nc=1"""
-	grass = container.text_area('Feel free to customize the final execution of the model, or simply proceed with the existing configuration. >----------------------------------------------- More Hyperparameters ------------------------------------------------------->', value=f'{string}', help= f"**:green[More Hyperparameters:]** {hp}")
+	grass = container.text_area('Feel free to customize the final execution of the model, or simply proceed with the existing configuration.:green[ More Hyperparameters] are available in the help section, i.e., when you hover over the :green[?] symbol :green[->]', value=f'{string}', help= f"**:green[More Hyperparameters:]** {hp}")
 	print("<grass>>>",grass)
 	# grass = st.text_input('Movie title', f'{string}')
 	# code = st_ace(
@@ -507,7 +517,7 @@ dataset = project.version(1).download("yolov8")
 					# Load the YAML content from the file
 					# Read the entire content of the data.yaml file
 					with open(yml, 'r') as d_y:
-					    yaml_content = d_y.readlines()
+						yaml_content = d_y.readlines()
 
 					# Modify the last three lines
 					yaml_content[-3] = "test: test/images\n"
@@ -516,7 +526,7 @@ dataset = project.version(1).download("yolov8")
 
 					# Write the modified content back to the file
 					with open(yml, 'w') as d_y:
-					    d_y.writelines(yaml_content)
+						d_y.writelines(yaml_content)
 				except yaml.YAMLError as exc:
 					print(exc)
 					pass
@@ -676,7 +686,7 @@ dataset = project.version(1).download("yolov8")
 			try:
 				parsed_yaml=yaml.safe_load(stream)
 				st.subheader(":green[args.yaml:]")
-				st.table(parsed_yaml)
+				st.dataframe(parsed_yaml)
 			except yaml.YAMLError as exc:
 				print(exc)
 	if st.button("Deployment Demo"):
