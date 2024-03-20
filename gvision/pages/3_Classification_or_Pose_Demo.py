@@ -24,6 +24,8 @@ import numpy as np
 import glob
 import sys
 import json
+# from ultralytics.utils.plotting import Annotator, colors
+# import imageio
 # Define the zone polygon
 zone_polygon_m = np.array([[160, 100], 
 						 [160, 380], 
@@ -140,7 +142,7 @@ def draw_annotations(frame, boxes, masks, names):
 
 
 def main():
-	st.title("🤖 Ai Classification")
+	st.title("🤖 Ai Classify & Pose")
 	st.subheader("YOLOv8 & Streamlit WebRTC Integration :)")
 	st.sidebar.title("Select an option ⤵️")
 	choice = st.sidebar.radio("", ("Live Webcam Predict", "Capture Image And Predict",":rainbow[Multiple Images Upload -]🖼️🖼️🖼️", "Upload Video"),
@@ -226,12 +228,12 @@ def main():
 				output_dict[top_class_label] = []
 
 				for r in results:
-				    cls_r = r.probs.data
-				    values = cls_r.tolist()
-				    cls_name = model.names
-				    cls_lst = list(cls_name.values())
-				    class_info = {"Class Name": cls_lst, "Confidence": values}
-				    output_dict[top_class_label].append(class_info)
+					cls_r = r.probs.data
+					values = cls_r.tolist()
+					cls_name = model.names
+					cls_lst = list(cls_name.values())
+					class_info = {"Class Name": cls_lst, "Confidence": values}
+					output_dict[top_class_label].append(class_info)
 				# Convert the dictionary to JSON format
 				output_json = json.dumps(output_dict, indent=4)
 
@@ -307,12 +309,12 @@ def main():
 				output_dict[top_class_label] = []
 
 				for r in results:
-				    cls_r = r.probs.data
-				    values = cls_r.tolist()
-				    cls_name = model.names
-				    cls_lst = list(cls_name.values())
-				    class_info = {"Class Name": cls_lst, "Confidence": values}
-				    output_dict[top_class_label].append(class_info)
+					cls_r = r.probs.data
+					values = cls_r.tolist()
+					cls_name = model.names
+					cls_lst = list(cls_name.values())
+					class_info = {"Class Name": cls_lst, "Confidence": values}
+					output_dict[top_class_label].append(class_info)
 				# Convert the dictionary to JSON format
 				output_json = json.dumps(output_dict, indent=4)
 
@@ -355,93 +357,62 @@ def main():
 			# st.json(labels1)
 			st.subheader("",divider='rainbow')
 	elif choice == "Upload Video":
-		st.title("🏗️Work in Progress📽️🎞️")
-		'''# Gaurang is Working on it...
+		# st.title("🏗️ Work in Progress 📽️ 🎞️")
+		
+		# Gaurang is Working on it...
 		clip = st.file_uploader("Choose a video file", type=['mp4'])
 
 		if clip:
-					# Read the content of the video file
+			# Read the content of the video file
 			video_content = clip.read()
 			# Convert the video content to a bytes buffer
 			video_buffer = BytesIO(video_content)
 			st.video(video_buffer)
+
 			with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as temp_file:
 				temp_filename = temp_file.name
 				temp_file.write(video_content)
 
-				print(f"---->_{temp_filename}")
-				results = model(temp_filename,show = False, stream=True, save = False)
-				for r in results:
-					boxes = r.boxes  # Boxes object for bbox outputs
-					masks = r.masks  # Masks object for segment masks outputs
-					probs = r.probs  # Class probabilities for classification outputs
-					orig_img = r.orig_img
-					video_path = temp_filename  # Replace with the path to your input video
-
-					cap = cv2.VideoCapture(video_path)
-					fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-					with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as temp_file_o:
-						temp_filename1 = temp_file_o.name
-						output_path = temp_filename1  # Replace with the desired output path
-						out = cv2.VideoWriter(output_path, cv2.VideoWriter_fourcc(*'mp4v'), 30.0, (int(cap.get(3)), int(cap.get(4))))
-						# Assuming `results` is a generator, convert it to a list
-						results_list = list(results)
-						for frame_number in range(len(results_list)):  # Get total number of frames
-							ret, frame = cap.read()
-							
-							# Get detection results for the current frame
-							results_for_frame = results_list[frame_number]
-							boxes = results_for_frame.boxes.xyxy.cpu().numpy()  # Assuming xyxy format
-							masks = results_for_frame.masks.tensor.cpu().numpy() if results_for_frame.masks is not None else None
-							# Check if probabilities are available
-							if results_for_frame.probs is not None:
-								# Get class names based on class indices
-								class_names_dict = results_for_frame.names
-								class_indices = results_for_frame.probs.argmax(dim=1).cpu().numpy()
-								class_names = [class_names_dict[class_idx] for class_idx in class_indices]
-							else:
-								class_names = []
-
-							# Draw annotations on the frame
-							annotated_frame = draw_annotations(frame.copy(), boxes, masks, class_names)
-
-							# Save the annotated frame to the output video
-							out.write(annotated_frame)
-							
-						cap.release()
-						out.release()
-						print(f"___{output_path}")
-
-						# output video
-						import base64
-						# Display the annotated video
-						video_bytes = open(output_path, "rb")
-						video_buffer2 = video_bytes.read()
-						st.video(video_buffer2)
-						st.success("Video processing completed.")
+			with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as temp_file1:
+				temp_filename1 = temp_file1.name
+				output_path = temp_filename1
+				names = model.model.names
+				cap = cv2.VideoCapture(temp_filename)
+				w, h, fps = (int(cap.get(x)) for x in (cv2.CAP_PROP_FRAME_WIDTH, cv2.CAP_PROP_FRAME_HEIGHT, cv2.CAP_PROP_FPS))
+				out = cv2.VideoWriter(output_path, cv2.VideoWriter_fourcc(*'VP90'), fps, (w, h))
+				
+				while True:
+					ret, frame = cap.read()
+					
+					if not ret:
+						break  # Break the loop if there are no more frames
+					
+					results = model.predict(frame, conf= conf)
+					try:
+						annotated_frame = results[0].plot(masks=True)
+						# st.image(annotated_frame, caption='Frame', use_column_width=True)
+					except:
+						annotated_frame = results[0].plot(masks=False)
+						# st.image(annotated_frame, caption='Frame', use_column_width=True)
+					# st.image(annotated_frame, caption='Frame', use_column_width=True)
+					out.write(annotated_frame)
 
 
+				# Release VideoWriter object
+				out.release()
+				# Release VideoCapture object
+				cap.release()
 
-
-				# # video_content1 = results.read()
-				# # Convert the video content to a bytes buffer
-				# video_buffer1 = BytesIO(results)
-
-			
-
-			# st.success("Video processing completed.")'''
-
-
-
-				# # Read the content of the video file
-				# # video_content1 = results.read()
-				# # Convert the video content to a bytes buffer
-				# video_buffer1 = BytesIO(results)
-				# st.video(video_buffer1)
-
-			# Display the processed video
-			# st.video(output_path)            
-			# st.video(results)
+				st.video(output_path)
+				st.success("Video processing completed.")
+				st.write(output_path)
+				# # Remove temporary files
+				# try:
+				# 	os.remove(temp_filename)
+				# 	os.remove(temp_filename1)
+				# 	print("Done.")
+				# except Exception as e:
+				# 	print(f"Error during cleanup: {e}")
 			
 
 			# st.success("Video processing completed.")
