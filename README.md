@@ -56,14 +56,21 @@ GVISION is licensed under the [MIT License](https://opensource.org/licenses/MIT)
 ## Contributing 🤝
 We welcome contributions from the community! If you have any feature requests, bug reports, or ideas for improvement, please [open an issue](https://github.com/gaurang157/gvision/issues) or submit a [pull request](https://github.com/gaurang157/gvision/pulls).
 
-## Upcoming Features 🚀
-- **Real-Time Inference Results:** Receive more detailed information, such as model frames per second (fps), during real-time (streaming) predictions from deployment.
+## GVISION 1.0 Release Notes 🚀
+I am thrilled to announce the official release of GVISION Version 1.0! This milestone marks a significant advancement, bringing a host of exciting enhancements to streamline your experience.
 
-Version 1.0 of GVISION will be the official release and will introduce exciting enhancements, including more detailed results in real-time predictions. Stay tuned for updates!
+### Improved Features:
+- **Real-Time Inference Results:** Experience enhanced real-time streaming predictions directly from deployment.
+
+Version 1.0 represents a culmination of efforts to provide a seamless and efficient solution for your vision tasks. I'm excited to deliver these enhancements and look forward to your continued feedback.
+
+## Upcoming in GVISION 1.1 🚀
+As I look ahead to the future, I'm thrilled to provide a glimpse of what's to come in GVISION Version 1.1. Next release will introduce a groundbreaking feature:
+
+### Custom Pre-Trained Model Transfer Learning:
+With GVISION 1.1, you'll have the capability to leverage your custom pre-trained models for transfer learning, empowering you to further tailor and refine your models to suit your specific needs. Unlock new possibilities and enhance the capabilities of your vision applications with this powerful feature.
+
+Stay tuned for more updates and announcements as I work tirelessly to bring you the best-in-class solutions for your vision tasks.
 
 ## Support 💌
 For any questions, feedback, or support requests, please contact us at gaurang.ingle@gmail.com.
-
-
-
-
